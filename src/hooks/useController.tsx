@@ -10,7 +10,7 @@ import { MAX_UINT } from '../constants/others'
 
 import * as util from '../utils/controller'
 import { useNotify } from './useNotify'
-import { SupportedNetworks } from '../constants'
+import { isMainnet } from '../constants'
 import { useCustomToast } from './useCustomToast'
 
 const controllerAbi = require('../constants/abis/controller.json')
@@ -26,7 +26,7 @@ export function useController() {
 
   const track = useCallback(
     (action: string) => {
-      const label = networkId === SupportedNetworks.Mainnet ? 'mainnet' : 'testnet'
+      const label = isMainnet[networkId] ? 'mainnet' : 'testnet'
       ReactGA.event({ category: 'controller', action, label })
     },
     [networkId],
@@ -91,7 +91,7 @@ export function useController() {
       try {
         await controller.methods.operate(args).send({ from: user }).on('transactionHash', notifyCallback)
       } catch (error) {
-        const message = error.message ? error.message : error.toString()
+        const message = (error as any).message ? (error as any).message : (error as any).toString()
         toast.error(message)
       }
     },

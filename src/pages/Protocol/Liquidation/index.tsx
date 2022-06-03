@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import ReactGA from 'react-ga'
-import { Button, DataView, SyncIndicator, Info, useTheme, Split } from '@aragon/ui'
+import { Button, DataView, SyncIndicator, useTheme, Split } from '@aragon/ui'
 
 import { useConnectedWallet } from '../../../contexts/wallet'
 import Header from '../../../components/Header'
@@ -11,7 +11,7 @@ import { LIQ_CALL_VAULT_STATE, LIQ_PUT_VAULT_STATE } from '../../../constants/da
 
 import { useLiquidationStatus } from '../../../hooks'
 import OpynTokenAmount from '../../../components/OpynTokenAmount'
-import { getWeth, SupportedNetworks, getPrimaryPaymentToken } from '../../../constants'
+import { getWeth, getPrimaryPaymentToken } from '../../../constants'
 import BigNumber from 'bignumber.js'
 import { useController } from '../../../hooks/useController'
 
@@ -90,60 +90,57 @@ export default function Liquidation() {
   return (
     <StyledContainer>
       <Header primary={'Liquidation'} secondary={`ETH Price $${spotPrice}`} />
-      {networkId !== SupportedNetworks.Mainnet ? (
-        <Info> This monitor is only available on Mainnet </Info>
-      ) : (
-        <div>
-          <DataView
-            heading={
-              <Split
-                primary="Call Vaults"
-                secondary={
-                  <OpynTokenAmount
-                    token={getWeth(networkId)}
-                    amount={totalCollateralCalls.toString()}
-                    chainId={networkId}
-                  />
-                }
-              />
-            }
-            status={isInitializing ? 'loading' : 'default'}
-            emptyState={LIQ_CALL_VAULT_STATE}
-            fields={['owner', 'statue', 'collateral', 'Liq price', 'short', '']}
-            entries={callVaults}
-            renderEntry={renderVaultRow}
-            entriesPerPage={5}
-            page={callPage}
-            onPageChange={setCallPage}
-            tableRowHeight={45}
-          />
 
-          <DataView
-            heading={
-              <Split
-                primary="Put Vaults"
-                secondary={
-                  <OpynTokenAmount
-                    token={getPrimaryPaymentToken(networkId)}
-                    amount={totalCollateralPut.toString()}
-                    chainId={networkId}
-                  />
-                }
-              />
-            }
-            status={isInitializing ? 'loading' : 'default'}
-            emptyState={LIQ_PUT_VAULT_STATE}
-            fields={['owner', 'status', 'collateral', 'Liq price', 'short', '']}
-            entries={putVaults}
-            renderEntry={renderVaultRow}
-            entriesPerPage={5}
-            page={putPage}
-            onPageChange={setPutPage}
-            tableRowHeight={45}
-          />
-          <SyncIndicator visible={isSyncing} children={'Syncing Oracle Data 🍣'} />
-        </div>
-      )}
+      <div>
+        <DataView
+          heading={
+            <Split
+              primary="Call Vaults"
+              secondary={
+                <OpynTokenAmount
+                  token={getWeth(networkId)}
+                  amount={totalCollateralCalls.toString()}
+                  chainId={networkId}
+                />
+              }
+            />
+          }
+          status={isInitializing ? 'loading' : 'default'}
+          emptyState={LIQ_CALL_VAULT_STATE}
+          fields={['owner', 'statue', 'collateral', 'Liq price', 'short', '']}
+          entries={callVaults}
+          renderEntry={renderVaultRow}
+          entriesPerPage={5}
+          page={callPage}
+          onPageChange={setCallPage}
+          tableRowHeight={45}
+        />
+
+        <DataView
+          heading={
+            <Split
+              primary="Put Vaults"
+              secondary={
+                <OpynTokenAmount
+                  token={getPrimaryPaymentToken(networkId)}
+                  amount={totalCollateralPut.toString()}
+                  chainId={networkId}
+                />
+              }
+            />
+          }
+          status={isInitializing ? 'loading' : 'default'}
+          emptyState={LIQ_PUT_VAULT_STATE}
+          fields={['owner', 'status', 'collateral', 'Liq price', 'short', '']}
+          entries={putVaults}
+          renderEntry={renderVaultRow}
+          entriesPerPage={5}
+          page={putPage}
+          onPageChange={setPutPage}
+          tableRowHeight={45}
+        />
+        <SyncIndicator visible={isSyncing} children={'Syncing Oracle Data 🍣'} />
+      </div>
     </StyledContainer>
   )
 }

@@ -2,7 +2,7 @@ import { useCallback, useMemo } from 'react'
 import ReactGA from 'react-ga'
 import BigNumber from 'bignumber.js'
 import { useConnectedWallet } from '../contexts/wallet'
-import { addresses, ZeroXEndpoint, SupportedNetworks } from '../constants'
+import { addresses, ZeroXEndpoint, isMainnet } from '../constants'
 import { useNotify } from './useNotify'
 import { SignedOrder } from '../types'
 import { useGasPrice } from './useGasPrice'
@@ -25,7 +25,7 @@ export function use0xExchange() {
 
   const track = useCallback(
     (action: string) => {
-      const label = networkId === SupportedNetworks.Mainnet ? 'mainnet' : 'testnet'
+      const label = isMainnet[networkId] ? 'mainnet' : 'testnet'
       ReactGA.event({ category: 'trading', action, label })
     },
     [networkId],
