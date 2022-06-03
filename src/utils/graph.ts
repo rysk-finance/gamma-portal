@@ -755,6 +755,7 @@ const postQuery = async (endpoint: string, query: string) => {
   }
   const url = endpoint
   const response = await fetch(url, options)
+  console.log(`response`, response)
   const data = await response.json()
   if (data.errors) {
     throw new Error(data.errors[0].message)

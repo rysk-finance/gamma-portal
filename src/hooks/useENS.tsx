@@ -1,6 +1,6 @@
 import { providers } from 'ethers'
 import { useEffect, useState } from 'react'
-import { networkToProvider } from '../constants'
+import { mainnetProvider } from '../constants'
 import { useConnectedWallet } from '../contexts/wallet'
 
 export function useENS(address: string | null | undefined) {
@@ -11,7 +11,7 @@ export function useENS(address: string | null | undefined) {
   useEffect(() => {
     async function resolveENS() {
       if (address) {
-        const provider = await new providers.JsonRpcProvider(networkToProvider[networkId])
+        const provider = await new providers.JsonRpcProvider(mainnetProvider)
         const name = await provider.lookupAddress(address)
         if (name) setENSName(name)
       }

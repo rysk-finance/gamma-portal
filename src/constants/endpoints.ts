@@ -1,8 +1,12 @@
 import { SupportedNetworks } from './networks'
 
+const INFURA_KEY = process.env.REACT_APP_INFURA_KEY
+
 type graphEndPointType = {
   [key in SupportedNetworks]: string
 }
+
+export const mainnetProvider = `https://mainnet.infura.io/v3/${INFURA_KEY}`
 
 export const networkToProvider: { [key in SupportedNetworks]: string } = {
   [SupportedNetworks.ArbitrumRinkeby]: `https://rinkeby.arbitrum.io/rpc`,
@@ -15,7 +19,7 @@ export const networkIdToName: { [key in SupportedNetworks]: string } = {
 }
 
 export const subgraph: graphEndPointType = {
-  [SupportedNetworks.ArbitrumRinkeby]: 'https://thegraph.com/hosted-service/subgraph/ugolino/ryskopyntestnet',
+  [SupportedNetworks.ArbitrumRinkeby]: 'https://api.thegraph.com/subgraphs/name/ugolino/ryskopyntestnet',
   // [SupportedNetworks.Arbitrum]: '',
 }
 

@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react'
 import { getPreference, storePreference } from '../utils/storage'
 import Onboard from 'bnc-onboard'
 import Web3 from 'web3'
-import { networkToProvider, SupportedNetworks } from '../constants'
+import { mainnetProvider, networkToProvider, SupportedNetworks } from '../constants'
 
 const BLOCKNATIVE_KEY = process.env.REACT_APP_BLOCKNATIVE_KEY
 const FORTMATIC_KEY = process.env.REACT_APP_FORTMATIC_KEY
@@ -106,6 +106,7 @@ export const initOnboard = (addressChangeCallback, walletChangeCallback, network
         {
           walletName: 'walletConnect',
           rpc: {
+            1: mainnetProvider,
             [SupportedNetworks.ArbitrumRinkeby]: networkToProvider[SupportedNetworks.ArbitrumRinkeby],
           }, // [Optional]
           preferred: true,

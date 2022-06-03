@@ -4,7 +4,7 @@ import { actionArg, ActionType } from '../types'
 import Web3 from 'web3'
 const web3 = new Web3()
 
-export function createOpenVaultArg(account: string, vaultId: BigNumber): actionArg {
+export function createOpenVaultArg(account: string, vaultId: BigNumber, partialCollat = true): actionArg {
   return {
     actionType: ActionType.OpenVault,
     owner: account,
@@ -13,7 +13,7 @@ export function createOpenVaultArg(account: string, vaultId: BigNumber): actionA
     vaultId: vaultId.toString(),
     amount: '0',
     index: '0',
-    data: ZERO_ADDR,
+    data: partialCollat ? web3.eth.abi.encodeParameter('uint256', 1) : ZERO_ADDR,
   }
 }
 
