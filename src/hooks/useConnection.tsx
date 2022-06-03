@@ -5,7 +5,6 @@ import Web3 from 'web3'
 import { mainnetProvider, networkToProvider, SupportedNetworks } from '../constants'
 
 const BLOCKNATIVE_KEY = process.env.REACT_APP_BLOCKNATIVE_KEY
-const FORTMATIC_KEY = process.env.REACT_APP_FORTMATIC_KEY
 
 export const useConnection = () => {
   const [user, setUser] = useState<string>('')
@@ -109,11 +108,6 @@ export const initOnboard = (addressChangeCallback, walletChangeCallback, network
             1: mainnetProvider,
             [SupportedNetworks.ArbitrumRinkeby]: networkToProvider[SupportedNetworks.ArbitrumRinkeby],
           }, // [Optional]
-          preferred: true,
-        },
-        {
-          walletName: 'fortmatic',
-          apiKey: FORTMATIC_KEY,
           preferred: true,
         },
         { walletName: 'lattice', appName: 'Gamma Portal', rpcUrl: networkToProvider[networkId], preferred: true },

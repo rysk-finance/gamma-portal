@@ -66,7 +66,7 @@ type SystemAddresses = {
 
 export const addresses: SystemAddresses = {
   [SupportedNetworks.ArbitrumRinkeby]: {
-    controller: '0xb2923CAbbC7dd78e9573D1D6d755E75dCB49CE47',
+    controller: '0x2acb561509a082bf2c58ce86cd30df6c2c2017f6',
     calculator: '0xa91B46bDDB891fED2cEE626FB03E2929702951A6',
     factory: '0xcBcC61d56bb2cD6076E2268Ea788F51309FA253B',
     addressBook: '0x2d3E178FFd961BD8C0b035C926F9f2363a436DdC',
