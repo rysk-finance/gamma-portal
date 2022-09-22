@@ -128,8 +128,8 @@ export default function L1Balances({ account }: { account: string }) {
         <Button
           label="Redeem"
           onClick={() => redeemToken(token.id, balance)}
-          // disabled={!isSettlementAllowed(token, allOracleAssets) || !hasPrice || !expiredITM}
-          disabled={false}
+          disabled={!isSettlementAllowed(token, allOracleAssets) || !hasPrice || !expiredITM}
+          // disabled={false}
         />,
       ]
     },
