@@ -64,7 +64,7 @@ function HomePage() {
             description="Dynamic hedging vault"
             icon={<img height={24} style={{ margin: 13 }} src={opynLogo} alt={'opyn official'} />}
             onClick={() => {
-              window.open('https://marketing-site-ouavvlfem-rysk-finance.vercel.app/', '_blank')
+              window.open('https://rysk.finance', '_blank')
             }}
           />
         </Col>
