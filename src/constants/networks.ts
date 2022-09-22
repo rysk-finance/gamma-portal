@@ -8,20 +8,23 @@ export enum SupportedNetworks {
   // Kovan = 42,
   // Matic = 137,
   // Avalanche = 43114,
-  // Arbitrum = 42161,
+  Arbitrum = 42161,
   ArbitrumRinkeby = 421611,
 }
 
 export const networkIdToExplorer = {
   [SupportedNetworks.ArbitrumRinkeby]: 'https://testnet.arbiscan.io/',
+  [SupportedNetworks.Arbitrum]: 'https://arbiscan.io/',
 }
 
 export const networkToLogo: { [key in SupportedNetworks]: string } = {
   [SupportedNetworks.ArbitrumRinkeby]: Arbitrum,
+  [SupportedNetworks.Arbitrum]: Arbitrum,
 }
 
 export const isMainnet: { [key in SupportedNetworks]: boolean } = {
   [SupportedNetworks.ArbitrumRinkeby]: false,
+  [SupportedNetworks.Arbitrum]: true,
 }
 
 export const isSupportedByMetaMask = (network: SupportedNetworks) => {

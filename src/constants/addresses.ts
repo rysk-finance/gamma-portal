@@ -19,7 +19,7 @@ export const tokens: Tokens = {
     eth,
     {
       name: 'USDC',
-      id: '0x3c6c9b6b41b9e0d82fed45d9502edffd5ed3d737',
+      id: '0x33a010E74A354bd784a62cca3A4047C1A84Ceeab',
       symbol: 'USDC',
       decimals: 6,
     },
@@ -30,26 +30,20 @@ export const tokens: Tokens = {
       decimals: 18,
     },
   ],
-  // [SupportedNetworks.Arbitrum]: [
-  //   {
-  //     name: 'USDC',
-  //     id: '0xff970a61a04b1ca14834a43f5de4533ebddb5cc8',
-  //     symbol: 'USDC',
-  //     decimals: 6,
-  //   },
-  //   {
-  //     name: 'Wrapped Ether',
-  //     id: '0x82af49447d8a07e3bd95bd0d56f35241523fbab1',
-  //     symbol: 'WETH',
-  //     decimals: 18,
-  //   },
-  //   {
-  //     name: 'Wrapped Bitcoin',
-  //     id: '0x2f2a2543b76a4166549f7aab2e75bef0aefc5b0f',
-  //     symbol: 'WBTC',
-  //     decimals: 8,
-  //   },
-  // ],
+  [SupportedNetworks.Arbitrum]: [
+    {
+      name: 'USDC',
+      id: '0xFF970A61A04b1cA14834A43f5dE4533eBDDB5CC8',
+      symbol: 'USDC',
+      decimals: 6,
+    },
+    {
+      name: 'Wrapped Ether',
+      id: '0x82aF49447D8a07e3bd95BD0d56f35241523fBab1',
+      symbol: 'WETH',
+      decimals: 18,
+    },
+  ],
 }
 
 type SystemAddresses = {
@@ -74,20 +68,20 @@ export const addresses: SystemAddresses = {
     whitelist: '0x0cc0b0C984036e0942544F70A5708Ab16463cd31',
     zeroxExchange: '0x0000000000000000000000000000000000000000',
   },
-  // [SupportedNetworks.Arbitrum]: {
-  //   controller: '',
-  //   calculator: '',
-  //   factory: '',
-  //   addressBook: '',
-  //   pool: '',
-  //   whitelist: '',
-  //   zeroxExchange: '0x0000000000000000000000000000000000000000',
-  // },
+  [SupportedNetworks.Arbitrum]: {
+    controller: '0x594bD4eC29F7900AE29549c140Ac53b5240d4019',
+    calculator: '0x749a3624ad2a001F935E3319743f53Ecc7466358',
+    factory: '0xBa1952eCdbA02de66fCf73f29068e8cf072644ec',
+    addressBook: '0xCa19F26c52b11186B4b1e76a662a14DA5149EA5a',
+    pool: '0xb9F33349db1d0711d95c1198AcbA9511B8269626',
+    whitelist: '0x84CaCC4103CeE1Da9b79f9Ed0Ed97414240D9c6F',
+    zeroxExchange: '0x0000000000000000000000000000000000000000',
+  },
 }
 
 export const blacklistOTokens: { [key in SupportedNetworks]: string[] } = {
   [SupportedNetworks.ArbitrumRinkeby]: [ZERO_ADDR],
-  // [SupportedNetworks.Arbitrum]: [ZERO_ADDR],
+  [SupportedNetworks.Arbitrum]: [ZERO_ADDR],
 }
 
 type KnownOperator = {
@@ -102,7 +96,7 @@ export const knownOperators: {
   [key in SupportedNetworks]: KnownOperator[]
 } = {
   [SupportedNetworks.ArbitrumRinkeby]: [],
-  // [SupportedNetworks.Arbitrum]: [],
+  [SupportedNetworks.Arbitrum]: [],
 }
 
 export const getETHAggregators = (networkId: SupportedNetworks) => {
