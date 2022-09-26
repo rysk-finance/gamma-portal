@@ -107,6 +107,7 @@ export const initOnboard = (addressChangeCallback, walletChangeCallback, network
           rpc: {
             1: mainnetProvider,
             [SupportedNetworks.ArbitrumRinkeby]: networkToProvider[SupportedNetworks.ArbitrumRinkeby],
+            [SupportedNetworks.Arbitrum]: networkToProvider[SupportedNetworks.Arbitrum],
           }, // [Optional]
           preferred: true,
         },
