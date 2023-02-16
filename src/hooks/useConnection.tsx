@@ -11,7 +11,7 @@ export const useConnection = () => {
 
   const [onboard, setOnboard] = useState<any>(null)
 
-  const [web3, setWeb3] = useState<Web3>(new Web3(networkToProvider[SupportedNetworks.ArbitrumRinkeby]))
+  const [web3, setWeb3] = useState<Web3>(new Web3(networkToProvider[SupportedNetworks.ArbitrumGoerli]))
 
   const storedNetwork = Number(getPreference('gamma-networkId', '1'))
   const [networkId, setNetworkId] = useState<SupportedNetworks>(storedNetwork)
@@ -107,6 +107,7 @@ export const initOnboard = (addressChangeCallback, walletChangeCallback, network
           rpc: {
             1: mainnetProvider,
             [SupportedNetworks.ArbitrumRinkeby]: networkToProvider[SupportedNetworks.ArbitrumRinkeby],
+            [SupportedNetworks.ArbitrumGoerli]: networkToProvider[SupportedNetworks.ArbitrumGoerli],
             [SupportedNetworks.Arbitrum]: networkToProvider[SupportedNetworks.Arbitrum],
           }, // [Optional]
           preferred: true,

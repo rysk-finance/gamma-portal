@@ -13,8 +13,8 @@ export interface Wallet {
 }
 
 export const DEFAULT: Wallet = {
-  networkId: SupportedNetworks.ArbitrumRinkeby,
-  web3: new Web3(networkToProvider[SupportedNetworks.ArbitrumRinkeby]),
+  networkId: SupportedNetworks.ArbitrumGoerli,
+  web3: new Web3(networkToProvider[SupportedNetworks.ArbitrumGoerli]),
   user: '',
   setUser: (user: string): void => {},
   connect: async () => '',
