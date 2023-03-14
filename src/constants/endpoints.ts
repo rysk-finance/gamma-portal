@@ -1,32 +1,67 @@
 import { SupportedNetworks } from './networks'
 
-const INFURA_KEY = process.env.REACT_APP_INFURA_KEY
-
 type graphEndPointType = {
   [key in SupportedNetworks]: string
 }
 
+const isPublic = process.env.REACT_APP_PUBLIC === 'true'
+const INFURA_KEY = process.env.REACT_APP_INFURA_KEY
+
 export const mainnetProvider = `https://mainnet.infura.io/v3/${INFURA_KEY}`
 
 export const networkToProvider: { [key in SupportedNetworks]: string } = {
-  [SupportedNetworks.ArbitrumRinkeby]: `https://rinkeby.arbitrum.io/rpc`,
+  [SupportedNetworks.Mainnet]: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
+  [SupportedNetworks.Goerli]: `https://goerli.infura.io/v3/${INFURA_KEY}`,
+  [SupportedNetworks.Avalanche]: 'https://api.avax.network/ext/bc/C/rpc',
   [SupportedNetworks.ArbitrumGoerli]: `https://goerli.arbitrum.io/rpc`,
   [SupportedNetworks.Arbitrum]: 'https://arb1.arbitrum.io/rpc',
+  [SupportedNetworks.Matic]: 'https://rpc-mainnet.maticvigil.com/',
+  [SupportedNetworks.ArbitrumRinkeby]: `https://rinkeby.arbitrum.io/rpc`,
 }
 
 export const networkIdToName: { [key in SupportedNetworks]: string } = {
+  [SupportedNetworks.Mainnet]: `Mainnet`,
+  [SupportedNetworks.Goerli]: `Goerli`,
+  [SupportedNetworks.Avalanche]: 'Avalanche',
+  [SupportedNetworks.Arbitrum]: 'Arbitrum',
+  [SupportedNetworks.Matic]: 'Polygon',
   [SupportedNetworks.ArbitrumRinkeby]: `Arbitrum Testnet`,
   [SupportedNetworks.ArbitrumGoerli]: `Arbitrum Testnet Goerli`,
-  [SupportedNetworks.Arbitrum]: 'Arbitrum',
 }
 
 export const subgraph: graphEndPointType = {
+  [SupportedNetworks.Mainnet]: isPublic
+    ? 'https://api.thegraph.com/subgraphs/name/opynfinance/gamma-mainnet'
+    : 'https://api.thegraph.com/subgraphs/name/opynfinance/playground',
+  [SupportedNetworks.Goerli]: 'https://api.thegraph.com/subgraphs/name/opynfinance/gamma-goerli',
+  [SupportedNetworks.Avalanche]: 'https://api.thegraph.com/subgraphs/name/opynfinance/gamma-avax',
+  [SupportedNetworks.Arbitrum]: 'https://api.thegraph.com/subgraphs/name/opynfinance/gamma-arbitrum-one',
+  [SupportedNetworks.Matic]: 'https://api.thegraph.com/subgraphs/name/opynfinance/gamma-matic',
   [SupportedNetworks.ArbitrumRinkeby]: 'https://api.thegraph.com/subgraphs/name/ugolino/ryskopyntestnet',
   [SupportedNetworks.ArbitrumGoerli]: 'https://api.thegraph.com/subgraphs/name/devey/rysk-opyngamma-arbitrum-goerli',
-  [SupportedNetworks.Arbitrum]: 'https://api.thegraph.com/subgraphs/name/rysk-finance/rysk-opyn-gamma-arbitrum',
 }
 
 export const ZeroXEndpoint: { [key in SupportedNetworks]: { http: string; ws: string } } = {
+  [SupportedNetworks.Mainnet]: {
+    http: 'https://api.0x.org/',
+    ws: 'wss://api.0x.org/orderbook/v1',
+  },
+  [SupportedNetworks.Goerli]: {
+    http: '',
+    ws: 'wss://api.0x.org/orderbook/v1', // prevent useWebsocket error
+  },
+  [SupportedNetworks.Arbitrum]: {
+    http: '',
+    ws: 'wss://api.0x.org/orderbook/v1', // prevent useWebsocket error
+  },
+  [SupportedNetworks.Avalanche]: {
+    http: 'https://avalanche.api.0x.org/',
+    ws: 'wss://api.0x.org/orderbook/v1', // prevent useWebsocket error
+  },
+  [SupportedNetworks.Matic]: {
+    http: '',
+    ws: 'wss://api.0x.org/orderbook/v1', // prevent useWebsocket error
+  },
   [SupportedNetworks.ArbitrumRinkeby]: {
     http: '',
     ws: '',
@@ -34,9 +69,5 @@ export const ZeroXEndpoint: { [key in SupportedNetworks]: { http: string; ws: st
   [SupportedNetworks.ArbitrumGoerli]: {
     http: '',
     ws: '',
-  },
-  [SupportedNetworks.Arbitrum]: {
-    http: '',
-    ws: '', // prevent useWebsocket error
   },
 }

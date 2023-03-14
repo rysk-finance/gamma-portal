@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo, useState } from 'react'
 import BigNumber from 'bignumber.js'
 import { useHistory } from 'react-router-dom'
-import { DataView, Button, Split, Tag, Timer } from '@aragon/ui'
+import { DataView, Button, Split, Tag, Timer, Info } from '@aragon/ui'
 
 import SectionTitle from '../../components/SectionHeader'
 import OpynTokenAmount from '../../components/OpynTokenAmount'
@@ -12,7 +12,7 @@ import { useOTokenBalances } from '../../hooks/useOTokenBalances'
 import { useConnectedWallet } from '../../contexts/wallet'
 import { OTokenBalance } from '../../types'
 import { sortByExpiryThanStrike, isExpired, isSettlementAllowed, isITM, getExpiryPayout } from '../../utils/others'
-import { getPreference } from '../../utils/storage'
+import { getPreference, storePreference } from '../../utils/storage'
 
 import { OTOKENS } from '../../constants/dataviewContents'
 
@@ -22,13 +22,30 @@ import { green, secondary } from '../../components/StyleDiv'
 import { useCustomToast } from '../../hooks'
 import { toTokenAmount } from '../../utils/math'
 
+import { FeeTier } from '../../constants/enums'
+
 const SHOW_OTM_KEY = 'show-otm'
+
+const hideFeeMessageRaw = getPreference('hide-fee-message', 'false')
+
+const fee = getPreference('fee', FeeTier.Ten) as FeeTier
 
 export default function L1Balances({ account }: { account: string }) {
   const { networkId, user } = useConnectedWallet()
   const [expiredOtokenPage, setExpiredOTokenPage] = useState(0)
   const [otokenPage, setOTokenPage] = useState(0)
+  const [hideFeeMessage, setHideFeeMessage] = useState<boolean>(hideFeeMessageRaw === 'true')
+
   const toast = useCustomToast()
+
+  const [isHover, setIsHover] = useState(false)
+
+  const handleMouseEnter = () => {
+    setIsHover(true)
+  }
+  const handleMouseLeave = () => {
+    setIsHover(false)
+  }
 
   // whether to show OTM expired oTokens
   const [showOTM, setShowOTM] = useState(getPreference(SHOW_OTM_KEY, 'false') === 'true')
@@ -45,7 +62,7 @@ export default function L1Balances({ account }: { account: string }) {
     async (token: string, amount: BigNumber) => {
       if (user !== account) return toast.error('Connected account is not the owner.')
 
-      await redeemBatch(user, [token], [amount])
+      await redeemBatch(user, [token], [amount], fee)
     },
     [user, account, toast, redeemBatch],
   )
@@ -85,7 +102,7 @@ export default function L1Balances({ account }: { account: string }) {
     () =>
       expiredEntries
         .filter(e => isSettlementAllowed(e.token, allOracleAssets))
-        // onnly redeem otokens that's ITM
+        // only redeem otokens that's ITM
         .filter(({ token }) => {
           const asset = allOracleAssets.find(a => a.asset.id === token.underlyingAsset.id)
           const price = asset && asset.prices.find(p => p.expiry === token.expiryTimestamp)?.price
@@ -98,7 +115,7 @@ export default function L1Balances({ account }: { account: string }) {
     if (user !== account) return toast.error('Connected account is not the owner.')
     const tokens = tokensToRedeem.map(t => t.token.id)
     const amounts = tokensToRedeem.map(b => b.balance)
-    await redeemBatch(user, tokens, amounts)
+    await redeemBatch(user, tokens, amounts, fee)
   }, [user, account, tokensToRedeem, redeemBatch, toast])
 
   const renderExpiredRow = useCallback(
@@ -110,11 +127,21 @@ export default function L1Balances({ account }: { account: string }) {
 
       const asset = allOracleAssets.find(a => a.asset.id === token.underlyingAsset.id)
       if (asset) {
+        // if collateral is different from underlying or strike, fetch its price
+        let collatPrice: string | undefined = undefined
+        if (
+          (token.isPut && token.collateralAsset.id !== token.strikeAsset.id) ||
+          (!token.isPut && token.collateralAsset.id !== token.underlyingAsset.id)
+        ) {
+          const collatPrices = allOracleAssets.find(a => a.asset.id === token.collateralAsset.id)
+          if (collatPrices) collatPrice = collatPrices.prices.find(p => p.expiry === token.expiryTimestamp)?.price
+        }
+
         expiryPrice = asset.prices.find(p => p.expiry === token.expiryTimestamp)?.price
         hasPrice = expiryPrice !== undefined
         if (expiryPrice !== undefined) {
           expiredITM = isITM(token, expiryPrice)
-          payout = getExpiryPayout(token, balance.toString(), expiryPrice)
+          payout = getExpiryPayout(token, balance.toString(), expiryPrice, collatPrice)
         }
       }
 
@@ -129,7 +156,6 @@ export default function L1Balances({ account }: { account: string }) {
           label="Redeem"
           onClick={() => redeemToken(token.id, balance)}
           disabled={!isSettlementAllowed(token, allOracleAssets) || !hasPrice || !expiredITM}
-          // disabled={false}
         />,
       ]
     },
@@ -151,39 +177,61 @@ export default function L1Balances({ account }: { account: string }) {
   return (
     <>
       {expiredEntries.length > 0 && (
-        <DataView
-          status={isLoadingBalance ? 'loading' : 'default'}
-          heading={
-            <Split
-              primary={<SectionTitle title="Expired oTokens" />}
-              secondary={
-                hasExpiredToken && (
-                  <div style={{ float: 'right' }}>
-                    <Button onClick={redeemAll} disabled={tokensToRedeem.length === 0}>
-                      Redeem Batch
-                      <span style={{ paddingLeft: '7px' }}>
-                        <Tag>{tokensToRedeem.length}</Tag>
-                      </span>
-                    </Button>
-                    <CheckBoxWithLabel
-                      storageKey={SHOW_OTM_KEY}
-                      checked={showOTM}
-                      setChecked={setShowOTM}
-                      label={'Show OTM options'}
-                    />
-                  </div>
-                )
-              }
-            />
-          }
-          fields={['balance', 'strike', 'settlement price', 'Payout', '']}
-          emptyState={OTOKENS}
-          entries={expiredOTokensToShow.sort((a, b) => sortByExpiryThanStrike(a.token, b.token)) || []}
-          renderEntry={renderExpiredRow}
-          entriesPerPage={5}
-          page={expiredOtokenPage}
-          onPageChange={setExpiredOTokenPage}
-        />
+        <>
+          {!hideFeeMessage && (
+            <Info title="Important">
+              To maintain the service, Gamma Portal is now charging a settlement fee on ITM options. Go to settings to
+              adjust the fee rate.
+              <br />
+              <br />
+              <p
+                onMouseEnter={handleMouseEnter}
+                onMouseLeave={handleMouseLeave}
+                style={{ fontWeight: isHover ? 800 : 300 }}
+                onClick={() => {
+                  setHideFeeMessage(true)
+                  storePreference('hide-fee-message', 'true')
+                }}
+              >
+                {' '}
+                Got it, don't show again{' '}
+              </p>
+            </Info>
+          )}
+          <DataView
+            status={isLoadingBalance ? 'loading' : 'default'}
+            heading={
+              <Split
+                primary={<SectionTitle title="Expired oTokens" />}
+                secondary={
+                  hasExpiredToken && (
+                    <div style={{ float: 'right' }}>
+                      <Button onClick={redeemAll} disabled={tokensToRedeem.length === 0}>
+                        Redeem Batch
+                        <span style={{ paddingLeft: '7px' }}>
+                          <Tag>{tokensToRedeem.length}</Tag>
+                        </span>
+                      </Button>
+                      <CheckBoxWithLabel
+                        storageKey={SHOW_OTM_KEY}
+                        checked={showOTM}
+                        setChecked={setShowOTM}
+                        label={'Show OTM options'}
+                      />
+                    </div>
+                  )
+                }
+              />
+            }
+            fields={['balance', 'strike', 'settlement price', 'Payout', '']}
+            emptyState={OTOKENS}
+            entries={expiredOTokensToShow.sort((a, b) => sortByExpiryThanStrike(a.token, b.token)) || []}
+            renderEntry={renderExpiredRow}
+            entriesPerPage={5}
+            page={expiredOtokenPage}
+            onPageChange={setExpiredOTokenPage}
+          />
+        </>
       )}
 
       <DataView

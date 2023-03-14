@@ -72,7 +72,7 @@ export async function getAccount(
     const response = await postQuery(endpoints[networkId], query)
     return response.data.account
   } catch (error) {
-    errorCallback((error as any).toString())
+    errorCallback(error.toString())
     return null
   }
 }
@@ -108,7 +108,7 @@ export async function getOTokenTrades(
     const response = await postQuery(endpoints[networkId], query)
     return response.data.otokenTrades
   } catch (error) {
-    errorCallback((error as any).toString())
+    errorCallback(error.toString())
     return []
   }
 }
@@ -129,7 +129,7 @@ export async function getERC20s(
     const response = await postQuery(endpoints[networkId], query)
     return response.data.erc20S
   } catch (error) {
-    errorCallback((error as any).toString())
+    errorCallback(error.toString())
     return null
   }
 }
@@ -173,7 +173,7 @@ export async function getWhitelistedProducts(
     const response = await postQuery(endpoints[networkId], query)
     return response.data.whitelistedProducts
   } catch (error) {
-    errorCallback((error as any).toString())
+    errorCallback(error.toString())
     return null
   }
 }
@@ -255,7 +255,7 @@ export async function getVault(
     const response = await postQuery(endpoints[networkId], query)
     return response.data.vault
   } catch (error) {
-    errorCallback((error as any).toString())
+    errorCallback(error.toString())
     return null
   }
 }
@@ -304,7 +304,7 @@ export async function getOTokens(networkId: SupportedNetworks, errorCallback: Fu
     )
     return oTokens
   } catch (error) {
-    errorCallback((error as any).toString())
+    errorCallback(error.toString())
     return []
   }
 }
@@ -313,6 +313,9 @@ export async function getNonEmptyPartialCollatVaults(
   networkId: SupportedNetworks,
   errorCallback: Function,
 ): Promise<SubgraphVault[]> {
+  if (networkId !== SupportedNetworks.Mainnet) {
+    return []
+  }
   const query = `
   { 
     vaults (
@@ -364,7 +367,7 @@ export async function getNonEmptyPartialCollatVaults(
     const now = Math.floor(Date.now() / 1000)
     return response.data.vaults.filter(vault => parseInt(vault.shortOToken.expiryTimestamp) > now)
   } catch (error) {
-    errorCallback((error as any).toString())
+    errorCallback(error.toString())
     return []
   }
 }
@@ -413,7 +416,7 @@ export async function getOToken(
     const response = await postQuery(endpoints[networkId], query)
     return response.data.otoken
   } catch (error) {
-    errorCallback((error as any).toString())
+    errorCallback(error.toString())
     return null
   }
 }
@@ -437,7 +440,7 @@ export async function getHolders(
     )
     return balances
   } catch (error) {
-    errorCallback((error as any).toString())
+    errorCallback(error.toString())
     return []
   }
 }
@@ -461,7 +464,7 @@ export async function getMintersForOToken(
     const uniqueMinters = Array.from(new Set(actions.map((a: { to: string }) => a.to)))
     return uniqueMinters as string[]
   } catch (error) {
-    errorCallback((error as any).toString())
+    errorCallback(error.toString())
     return []
   }
 }
@@ -508,7 +511,7 @@ export async function getLiveOTokens(
     )
     return oTokens
   } catch (error) {
-    errorCallback((error as any).toString())
+    errorCallback(error.toString())
     return null
   }
 }
@@ -561,7 +564,7 @@ export async function getLiveOTokensIsSeries(
     )
     return oTokens
   } catch (error) {
-    errorCallback((error as any).toString())
+    errorCallback(error.toString())
     return null
   }
 }
@@ -613,7 +616,7 @@ export async function getBalances(
       })
       .filter(b => !b.balance.isZero())
   } catch (error) {
-    errorCallback((error as any).toString())
+    errorCallback(error.toString())
     return null
   }
 }
@@ -709,7 +712,7 @@ export const getVaultHistory = async (
     const response = await postQuery(endpoints[networkId], query)
     return response.data
   } catch (error) {
-    errorCallback((error as any).toString())
+    errorCallback(error.toString())
     return null
   }
 }
@@ -742,7 +745,7 @@ export const getOracleAssetsAndPricers = async (
     const response = await postQuery(endpoints[networkId], query)
     return response.data.oracleAssets
   } catch (error) {
-    errorCallback((error as any).toString())
+    errorCallback(error.toString())
     return null
   }
 }
@@ -755,7 +758,6 @@ const postQuery = async (endpoint: string, query: string) => {
   }
   const url = endpoint
   const response = await fetch(url, options)
-  console.log(`response`, response)
   const data = await response.json()
   if (data.errors) {
     throw new Error(data.errors[0].message)
@@ -792,7 +794,7 @@ export const getMainnetChainlinkRounds = async (
       return { ...rawRound, roundIdHex: toAggregatorRoundId(rawRound.number) }
     })
   } catch (error) {
-    errorCallback((error as any).toString())
+    errorCallback(error.toString())
     return []
   }
 }

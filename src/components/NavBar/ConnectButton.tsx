@@ -1,5 +1,5 @@
 import React from 'react'
-
+import { useHistory } from 'react-router-dom'
 import { Button, IconConnect, Box, IconPower, IdentityBadge } from '@aragon/ui'
 
 import { checkAddressAndAddToStorage } from '../../utils/storage'
@@ -9,13 +9,15 @@ import { useENS } from '../../hooks/useENS'
 function ConnectButton() {
   const { connect, disconnect, user } = useConnectedWallet()
 
-  const { ensName } = useENS(user)
+  const { ensName } = useENS()
 
   const connectWeb3 = async () => {
     const address = await connect()
     if (!address) return
     checkAddressAndAddToStorage(address)
   }
+
+  const history = useHistory()
 
   return user !== '' ? (
     <>
@@ -29,7 +31,10 @@ function ConnectButton() {
                 <IconPower></IconPower> Disconnect{' '}
               </>
             ),
-            onClick: disconnect,
+            onClick: () => {
+              disconnect()
+              history.push('/account')
+            },
           }}
         />
       </Box>
