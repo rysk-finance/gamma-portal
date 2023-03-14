@@ -80,6 +80,21 @@ export const tokens: Tokens = {
       decimals: 6,
     },
   ],
+  [SupportedNetworks.ArbitrumGoerli]: [
+    eth,
+    {
+      name: 'USDC',
+      id: '0x6775842ae82bf2f0f987b10526768ad89d79536e',
+      symbol: 'USDC',
+      decimals: 6,
+    },
+    {
+      name: 'Wrapped Ether',
+      id: '0x53320bE2A35649E9B2a0f244f9E9474929d3B699',
+      symbol: 'WETH',
+      decimals: 18,
+    },
+  ],
   [SupportedNetworks.Arbitrum]: [
     {
       name: 'USDC',
@@ -177,6 +192,15 @@ export const addresses: SystemAddresses = {
     whitelist: '0xe9963AFfc9a53e293c9bB547c52902071e6087c9',
     zeroxExchange: '0x0000000000000000000000000000000000000000',
   },
+  [SupportedNetworks.ArbitrumGoerli]: {
+    controller: '0x11a602a5F5D823c103bb8b7184e22391Aae5F4C2',
+    calculator: '0xcD270e755C2653e806e16dD3f78E16C89B7a1c9e',
+    factory: '0x7595F9c5B93f1478dC0836BdFCb87fF3A8970B10',
+    addressBook: '0xd6e67bF0b1Cdb34C37f31A2652812CB30746a94A',
+    pool: '0x0E0Ad3eA82EFAeAFb4476f5E8225b4746B88FD9f',
+    whitelist: '0xf6651D140AEEE442E91A6BAe418c4993d0190370',
+    zeroxExchange: '0x0000000000000000000000000000000000000000',
+  },
   [SupportedNetworks.Arbitrum]: {
     controller: '0x594bD4eC29F7900AE29549c140Ac53b5240d4019',
     calculator: '0x749a3624ad2a001F935E3319743f53Ecc7466358',
@@ -213,6 +237,7 @@ export const blacklistOTokens: { [key in SupportedNetworks]: string[] } = {
   [SupportedNetworks.Avalanche]: [ZERO_ADDR],
   [SupportedNetworks.Matic]: [ZERO_ADDR],
   [SupportedNetworks.ArbitrumRinkeby]: [ZERO_ADDR],
+  [SupportedNetworks.ArbitrumGoerli]: [ZERO_ADDR],
 }
 
 type KnownOperator = {
@@ -256,6 +281,8 @@ export const knownOperators: {
     },
   ],
   [SupportedNetworks.ArbitrumRinkeby]: [],
+  [SupportedNetworks.ArbitrumGoerli]: [],
+  [SupportedNetworks.Arbitrum]: [],
 }
 
 export const getETHAggregators = (networkId: SupportedNetworks) => {

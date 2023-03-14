@@ -10,6 +10,7 @@ export enum SupportedNetworks {
   Arbitrum = 42161,
   Goerli = 5,
   ArbitrumRinkeby = 421611,
+  ArbitrumGoerli = 421613,
 }
 
 export const networkIdToExplorer = {
@@ -19,21 +20,24 @@ export const networkIdToExplorer = {
   [SupportedNetworks.Matic]: 'https://polygonscan.com',
   [SupportedNetworks.Goerli]: 'https://goerli.etherscan.io',
   [SupportedNetworks.ArbitrumRinkeby]: 'https://testnet.arbiscan.io/',
+  [SupportedNetworks.ArbitrumGoerli]: 'https://goerli.arbiscan.io/',
 }
 
 export const networkToLogo: { [key in SupportedNetworks]: string } = {
   [SupportedNetworks.Mainnet]: Ethereum,
   [SupportedNetworks.Goerli]: Ethereum,
   [SupportedNetworks.Avalanche]: AVAX,
+  [SupportedNetworks.ArbitrumRinkeby]: Arbitrum,
+  [SupportedNetworks.ArbitrumGoerli]: Arbitrum,
   [SupportedNetworks.Arbitrum]: Arbitrum,
   [SupportedNetworks.Matic]: Matic,
-  [SupportedNetworks.ArbitrumRinkeby]: Arbitrum,
 }
 
 export const isMainnet: { [key in SupportedNetworks]: boolean } = {
   [SupportedNetworks.Mainnet]: true,
   [SupportedNetworks.Goerli]: false,
   [SupportedNetworks.Avalanche]: true,
+  [SupportedNetworks.ArbitrumGoerli]: false,
   [SupportedNetworks.Arbitrum]: true,
   [SupportedNetworks.Matic]: true,
   [SupportedNetworks.ArbitrumRinkeby]: false,
@@ -64,7 +68,7 @@ export const networkToTokenConfig = (networkId: SupportedNetworks) => {
       symbol: 'MATIC',
       decimals: 18,
     }
-  if (networkId === SupportedNetworks.ArbitrumRinkeby)
+  if (networkId === SupportedNetworks.ArbitrumRinkeby || networkId === SupportedNetworks.ArbitrumGoerli)
     return {
       name: 'Arbitrum Testnet',
       symbol: 'AETH',

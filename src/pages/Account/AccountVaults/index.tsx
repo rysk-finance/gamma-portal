@@ -100,7 +100,7 @@ export default function AccountVaults() {
       />
       <>
         {' '}
-        <span style={{ paddingRight: 20 }}> Mange Vaults for </span>{' '}
+        <span style={{ paddingRight: 20 }}> Manage Vaults for </span>{' '}
         <CustomIdentityBadge entity={account} shorten={false} />{' '}
       </>
 
