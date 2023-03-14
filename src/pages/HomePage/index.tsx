@@ -9,7 +9,9 @@ import Comment from '../../components/Comment'
 import SectionTitle from '../../components/SectionHeader'
 import StyledContainer from '../../components/StyledContainer'
 
-const opynLogo = require('../../imgs/icons/opyn.png')
+const rysk = require('../../imgs/icons/rysk.svg')
+const ribbon = require('../../imgs/icons/ribbon.svg')
+const stakeDao = require('../../imgs/icons/stake-dao.png')
 
 function HomePage() {
   const history = useHistory()
@@ -60,15 +62,48 @@ function HomePage() {
       <Row>
         <Col sm={12} md={6} lg={4}>
           <BoxButton
-            title="Rysk Finance"
-            description="Dynamic hedging vault"
-            icon={<img height={24} style={{ margin: 13 }} src={opynLogo} alt={'opyn official'} />}
+            title="Ribbon Finance"
+            description="Leading DOV products"
+            icon={<img height={50} src={ribbon} alt={'ribbon finance'} />}
             onClick={() => {
-              window.open('https://rysk.finance', '_blank')
+              window.open('https://ribbon.finance/', '_blank')
+            }}
+          />
+        </Col>
+
+        <Col sm={12} md={6} lg={4}>
+          <BoxButton
+            title="Stake Dao"
+            description="Explore automatic option strategies"
+            icon={<img height={50} src={stakeDao} alt={'stake dao'} />}
+            onClick={() => {
+              window.open('https://stakedao.org/', '_blank')
+            }}
+          />
+        </Col>
+        <Col sm={12} md={6} lg={4}>
+          <BoxButton
+            title="Rysk Finance"
+            description="Dynamic Hedging Vault"
+            icon={<img height={50} src={rysk} alt={'Opeth Finance'} />}
+            onClick={() => {
+              window.open('https://www.rysk.finance/', '_blank')
             }}
           />
         </Col>
       </Row>
+
+      {/* <SectionTitle title={'Stats'} />
+
+      <Row>
+        <Col sm={12} md={6} lg={4}>
+          <TotalAsset />
+        </Col>
+
+        <Col sm={12} md={6} lg={4}></Col>
+
+        <Col sm={12} md={6} lg={4}></Col>
+      </Row> */}
     </StyledContainer>
   )
 }

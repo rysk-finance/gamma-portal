@@ -2,16 +2,20 @@ import { useState, useEffect, useCallback } from 'react'
 import { getPreference, storePreference } from '../utils/storage'
 import Onboard from 'bnc-onboard'
 import Web3 from 'web3'
-import { mainnetProvider, networkToProvider, SupportedNetworks } from '../constants'
+import { networkToProvider, SupportedNetworks } from '../constants'
 
 const BLOCKNATIVE_KEY = process.env.REACT_APP_BLOCKNATIVE_KEY
+const FORTMATIC_KEY = process.env.REACT_APP_FORTMATIC_KEY
 
 export const useConnection = () => {
   const [user, setUser] = useState<string>('')
+  const [isWatchMode, setIsWatchMode] = useState<Boolean>(false)
+
+  console.log('isWatchMode', isWatchMode)
 
   const [onboard, setOnboard] = useState<any>(null)
 
-  const [web3, setWeb3] = useState<Web3>(new Web3(networkToProvider[SupportedNetworks.ArbitrumRinkeby]))
+  const [web3, setWeb3] = useState<Web3>(new Web3(networkToProvider[SupportedNetworks.Mainnet]))
 
   const storedNetwork = Number(getPreference('gamma-networkId', '1'))
   const [networkId, setNetworkId] = useState<SupportedNetworks>(storedNetwork)
@@ -20,8 +24,10 @@ export const useConnection = () => {
   const setAddressCallback = useCallback((address: string | undefined) => {
     if (!address) {
       setUser('')
+      setIsWatchMode(false)
     } else {
-      setUser(address)
+      setUser(address.toLowerCase())
+      setIsWatchMode(false)
     }
   }, [])
 
@@ -75,16 +81,18 @@ export const useConnection = () => {
     const checked = await onboard.walletCheck()
     if (!checked) return false
     const account = onboard.getState().address
-    setUser(account)
+    setUser(account.toLowerCase())
+    setIsWatchMode(false)
     return account
   }, [onboard])
 
   const disconnect = useCallback(async () => {
     onboard.walletReset()
     setUser('')
+    setIsWatchMode(false)
   }, [onboard])
 
-  return { networkId, user, setUser, web3, connect, disconnect }
+  return { networkId, user, setUser, setIsWatchMode, web3, connect, disconnect, isWatchMode, setNetworkId }
 }
 
 export const initOnboard = (addressChangeCallback, walletChangeCallback, networkChangeCallback, networkId) => {
@@ -105,10 +113,18 @@ export const initOnboard = (addressChangeCallback, walletChangeCallback, network
         {
           walletName: 'walletConnect',
           rpc: {
-            1: mainnetProvider,
-            [SupportedNetworks.ArbitrumRinkeby]: networkToProvider[SupportedNetworks.ArbitrumRinkeby],
+            [SupportedNetworks.Mainnet]: networkToProvider[SupportedNetworks.Mainnet],
+            [SupportedNetworks.Goerli]: networkToProvider[SupportedNetworks.Goerli],
             [SupportedNetworks.Arbitrum]: networkToProvider[SupportedNetworks.Arbitrum],
+            [SupportedNetworks.Avalanche]: networkToProvider[SupportedNetworks.Avalanche],
+            [SupportedNetworks.Matic]: networkToProvider[SupportedNetworks.Matic],
+            [SupportedNetworks.ArbitrumRinkeby]: networkToProvider[SupportedNetworks.ArbitrumRinkeby],
           }, // [Optional]
+          preferred: true,
+        },
+        {
+          walletName: 'fortmatic',
+          apiKey: FORTMATIC_KEY,
           preferred: true,
         },
         { walletName: 'lattice', appName: 'Gamma Portal', rpcUrl: networkToProvider[networkId], preferred: true },
