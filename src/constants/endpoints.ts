@@ -13,7 +13,7 @@ export const networkToProvider: { [key in SupportedNetworks]: string } = {
   [SupportedNetworks.Mainnet]: `https://mainnet.infura.io/v3/${INFURA_KEY}`,
   [SupportedNetworks.Goerli]: `https://goerli.infura.io/v3/${INFURA_KEY}`,
   [SupportedNetworks.Avalanche]: 'https://api.avax.network/ext/bc/C/rpc',
-  [SupportedNetworks.ArbitrumGoerli]: `https://goerli.arbitrum.io/rpc`,
+  [SupportedNetworks.ArbitrumGoerli]: `https://endpoints.omniatech.io/v1/arbitrum/goerli/public`,
   [SupportedNetworks.Arbitrum]: 'https://arb1.arbitrum.io/rpc',
   [SupportedNetworks.Matic]: 'https://rpc-mainnet.maticvigil.com/',
   [SupportedNetworks.ArbitrumRinkeby]: `https://rinkeby.arbitrum.io/rpc`,
