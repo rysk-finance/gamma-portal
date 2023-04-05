@@ -90,7 +90,7 @@ export const tokens: Tokens = {
     },
     {
       name: 'Wrapped Ether',
-      id: '0x53320bE2A35649E9B2a0f244f9E9474929d3B699',
+      id: '0x53320be2a35649e9b2a0f244f9e9474929d3b699',
       symbol: 'WETH',
       decimals: 18,
     },
