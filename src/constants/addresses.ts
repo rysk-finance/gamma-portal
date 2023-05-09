@@ -84,13 +84,13 @@ export const tokens: Tokens = {
     eth,
     {
       name: 'USDC',
-      id: '0x6775842ae82bf2f0f987b10526768ad89d79536e',
+      id: '0x408c5755b5c7a0a28d851558ea3636cfc5b5b19d',
       symbol: 'USDC',
       decimals: 6,
     },
     {
       name: 'Wrapped Ether',
-      id: '0x53320be2a35649e9b2a0f244f9e9474929d3b699',
+      id: '0x3b3a1de07439eeb04492fa64a889ee25a130cdd3',
       symbol: 'WETH',
       decimals: 18,
     },
