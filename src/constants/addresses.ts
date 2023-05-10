@@ -94,6 +94,18 @@ export const tokens: Tokens = {
       symbol: 'WETH',
       decimals: 18,
     },
+    {
+      name: 'USDC',
+      id: '0x6775842ae82bf2f0f987b10526768ad89d79536e',
+      symbol: 'USDC',
+      decimals: 6,
+    },
+    {
+      name: 'Wrapped Ether',
+      id: '0x53320be2a35649e9b2a0f244f9e9474929d3b699',
+      symbol: 'WETH',
+      decimals: 18,
+    }
   ],
   [SupportedNetworks.Arbitrum]: [
     {
