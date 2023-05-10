@@ -38,7 +38,7 @@ export const subgraph: graphEndPointType = {
   [SupportedNetworks.Arbitrum]: 'https://api.thegraph.com/subgraphs/name/opynfinance/gamma-arbitrum-one',
   [SupportedNetworks.Matic]: 'https://api.thegraph.com/subgraphs/name/opynfinance/gamma-matic',
   [SupportedNetworks.ArbitrumRinkeby]: 'https://api.thegraph.com/subgraphs/name/ugolino/ryskopyntestnet',
-  [SupportedNetworks.ArbitrumGoerli]: 'https://api.goldsky.com/api/public/project_clhf7zaco0n9j490ce421agn4/subgraphs/devey/0.0.2/gn',
+  [SupportedNetworks.ArbitrumGoerli]: 'https://api.goldsky.com/api/public/project_clhf7zaco0n9j490ce421agn4/subgraphs/opyn/0.1.1/gn',
 }
 
 export const ZeroXEndpoint: { [key in SupportedNetworks]: { http: string; ws: string } } = {
