@@ -97,6 +97,9 @@ export function sleep(ms: number) {
 }
 
 export function simplifyOTokenSymbol(symbol: string) {
+ if (!symbol) {
+     return "Symbol not found";
+   }
   // oWETHUSDC/WETH-15JAN21-680C
   const [assets, remaining] = symbol.split('/')
   const [, date, strike] = remaining.split('-')
