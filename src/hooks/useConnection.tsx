@@ -17,7 +17,7 @@ export const useConnection = () => {
 
   const [web3, setWeb3] = useState<Web3>(new Web3(networkToProvider[SupportedNetworks.Mainnet]))
 
-  const storedNetwork = Number(getPreference('gamma-networkId', '1'))
+  const storedNetwork = Number(getPreference('gamma-networkId', '421613'))
   const [networkId, setNetworkId] = useState<SupportedNetworks>(storedNetwork)
 
   // function for block native sdk when address is updated
