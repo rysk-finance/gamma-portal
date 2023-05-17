@@ -72,7 +72,7 @@ export default function Otoken() {
   const volume = useMemo(() => {
     if (!tokenDetails) return new BigNumber(0)
     const totalOTokenRawAmt = trades.reduce((prev, curr) => {
-      return prev.plus(curr.oTokenAmount)
+      return prev.plus(curr.amount)
     }, new BigNumber(0))
     const totalOTokenAmt = toTokenAmount(totalOTokenRawAmt, 8)
     const strikePrice = toTokenAmount(tokenDetails?.strikePrice, 8)
@@ -102,10 +102,10 @@ export default function Otoken() {
     (trade: OTokenTrade) => {
       // amount', 'price', 'seller', 'buyer', 'timestamp', 'tx
       return [
-        toTokenAmount(trade.oTokenAmount, 8).toFixed(2),
-        toTokenAmount(trade.paymentTokenAmount, trade.paymentToken.decimals)
-          .div(toTokenAmount(trade.oTokenAmount, 8))
-          .toFixed(4),
+        toTokenAmount(trade.amount, 18).toFixed(2), // amount is Rysk:18
+        toTokenAmount(trade.premium, 6).toFixed(2), // premium is USDC:6
+         // .div(toTokenAmount(trade.amount, 18))
+         //  .toFixed(4),
         <CustomIdentityBadge entity={trade.seller} />,
         <CustomIdentityBadge entity={trade.buyer} />,
         timeSince(Number(trade.timestamp) * 1000),

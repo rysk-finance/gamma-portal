@@ -83,30 +83,25 @@ export async function getOTokenTrades(
   errorCallback: Function,
 ): Promise<OTokenTrade[]> {
   const query = `{
-    otokenTrades(
+    optionsBoughtActions(
       where: {
-        oToken_contains: "${otoken}"
+        otoken_contains: "${otoken}"
       }, 
       orderBy: timestamp, 
       orderDirection: desc
     ) {
-      oTokenAmount
-      paymentTokenAmount
-      paymentToken {
-        symbol
-        decimals
-        id
-      }
+      amount
+      premium
       buyer
-      seller
       timestamp
       transactionHash
     }
   }
   `
+
   try {
     const response = await postQuery(endpoints[networkId], query)
-    return response.data.otokenTrades
+    return response.data.optionsBoughtActions
   } catch (error) {
     errorCallback(error.toString())
     return []

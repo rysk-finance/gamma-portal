@@ -114,9 +114,9 @@ export type OTokenBalance = {
 export type OTokenTrade = {
   buyer: string
   seller: string
-  oTokenAmount: string
+  amount: string
   paymentToken: SubgraphToken
-  paymentTokenAmount: string
+  premium: string
   timestamp: string
   transactionHash: string
 }
