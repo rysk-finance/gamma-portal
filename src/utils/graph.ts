@@ -96,12 +96,25 @@ export async function getOTokenTrades(
       timestamp
       transactionHash
     }
+    optionsSoldActions(
+      where: {
+        otoken_contains: "${otoken}"
+      }, 
+      orderBy: timestamp, 
+      orderDirection: desc
+    ) {
+      amount
+      premium
+      seller
+      timestamp
+      transactionHash
+    }
   }
   `
 
   try {
     const response = await postQuery(endpoints[networkId], query)
-    return response.data.optionsBoughtActions
+    return [...response.data.optionsBoughtActions, ...response.data.optionsSoldActions]
   } catch (error) {
     errorCallback(error.toString())
     return []

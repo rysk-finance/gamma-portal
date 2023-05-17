@@ -209,13 +209,13 @@ export default function Otoken() {
                 {tokenExpired ? (
                   <Box heading="Payout">
                     <div style={{ display: 'flex', height: 40 }}>
-                      {`${payOut.toFixed(6)} ${tokenDetails.collateralAsset.symbol}`}
+                      {`${payOut.toFixed(6)} ${tokenDetails.strikeAsset.symbol}`}
                     </div>
                   </Box>
                 ) : (
                   <Box heading="Est. Payout">
                     <div style={{ display: 'flex', height: 40 }}>
-                      {`${estPayOut.toFixed(6)} ${tokenDetails.collateralAsset.symbol}`}
+                      {`${estPayOut.toFixed(6)} ${tokenDetails.strikeAsset.symbol}`}
                     </div>
                     {/* <Timer format="dhm" showIcon end={new Date(Number(tokenDetails.expiryTimestamp) * 1000)} /> */}
                   </Box>
