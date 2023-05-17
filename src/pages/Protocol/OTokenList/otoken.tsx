@@ -74,7 +74,7 @@ export default function Otoken() {
     const totalOTokenRawAmt = trades.reduce((prev, curr) => {
       return prev.plus(curr.amount)
     }, new BigNumber(0))
-    const totalOTokenAmt = toTokenAmount(totalOTokenRawAmt, 8)
+    const totalOTokenAmt = toTokenAmount(totalOTokenRawAmt, 18) // Otoken decimals is Rysk:18
     const strikePrice = toTokenAmount(tokenDetails?.strikePrice, 8)
     return strikePrice.multipliedBy(totalOTokenAmt)
   }, [trades, tokenDetails])
