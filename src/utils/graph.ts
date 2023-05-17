@@ -636,7 +636,7 @@ export const getVaultHistory = async (
   errorCallback: Function,
 ) => {
   const query = `{
-    depositCollateralActions (where: {vault_contains: "${owner}-${vaultId}"}) {
+    depositCollateralActions (where: {vault_: {id: "${owner}-${vaultId}"}} ) {
       id
       asset {
         id
@@ -647,7 +647,7 @@ export const getVaultHistory = async (
       timestamp
       transactionHash
     }
-    withdrawCollateralActions (where: {vault_contains: "${owner}-${vaultId}"}) {
+    withdrawCollateralActions (where: {vault_: {id: "${owner}-${vaultId}"}} ) {
       id
       asset {
         id
@@ -658,7 +658,7 @@ export const getVaultHistory = async (
       timestamp
       transactionHash
     }
-    depositLongActions (where: {vault_contains: "${owner}-${vaultId}"}) {
+    depositLongActions (where: {vault_: {id: "${owner}-${vaultId}"}} ) {
       id
       oToken {
         symbol
@@ -668,7 +668,7 @@ export const getVaultHistory = async (
       timestamp
       transactionHash
     }
-    withdrawLongActions (where: {vault_contains: "${owner}-${vaultId}"}) {
+    withdrawLongActions (where: {vault_: {id: "${owner}-${vaultId}"}} ) {
       id
       oToken {
         symbol
@@ -678,7 +678,7 @@ export const getVaultHistory = async (
       timestamp
       transactionHash
     }
-    mintShortActions (where: {vault_contains: "${owner}-${vaultId}"}) {
+    mintShortActions (where: {vault_: {id: "${owner}-${vaultId}"}} ) {
       id
       oToken {
         symbol
@@ -688,7 +688,7 @@ export const getVaultHistory = async (
       timestamp
       transactionHash
     }
-    burnShortActions (where: {vault_contains: "${owner}-${vaultId}"}) {
+    burnShortActions (where: {vault_: {id: "${owner}-${vaultId}"}} ) {
       id
       oToken {
         symbol
@@ -698,7 +698,7 @@ export const getVaultHistory = async (
       timestamp
       transactionHash
     }
-    settleActions (where: {vault_contains: "${owner}-${vaultId}"}) {
+    settleActions (where: {vault_: {id: "${owner}-${vaultId}"}} ) {
       id
       short {
         symbol
