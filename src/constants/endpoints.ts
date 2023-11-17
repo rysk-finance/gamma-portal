@@ -35,10 +35,12 @@ export const subgraph: graphEndPointType = {
     : 'https://api.thegraph.com/subgraphs/name/opynfinance/playground',
   [SupportedNetworks.Goerli]: 'https://api.thegraph.com/subgraphs/name/opynfinance/gamma-goerli',
   [SupportedNetworks.Avalanche]: 'https://api.thegraph.com/subgraphs/name/opynfinance/gamma-avax',
-  [SupportedNetworks.Arbitrum]: 'https://api.goldsky.com/api/public/project_clhf7zaco0n9j490ce421agn4/subgraphs/arbitrum-one/0.1.17/gn',
+  [SupportedNetworks.Arbitrum]:
+    'https://api.goldsky.com/api/public/project_clhf7zaco0n9j490ce421agn4/subgraphs/arbitrum-one/production/gn',
   [SupportedNetworks.Matic]: 'https://api.thegraph.com/subgraphs/name/opynfinance/gamma-matic',
   [SupportedNetworks.ArbitrumRinkeby]: 'https://api.thegraph.com/subgraphs/name/ugolino/ryskopyntestnet',
-  [SupportedNetworks.ArbitrumGoerli]: 'https://api.goldsky.com/api/public/project_clhf7zaco0n9j490ce421agn4/subgraphs/devey/0.1.17/gn',
+  [SupportedNetworks.ArbitrumGoerli]:
+    'https://api.goldsky.com/api/public/project_clhf7zaco0n9j490ce421agn4/subgraphs/devey/0.1.17/gn',
 }
 
 export const ZeroXEndpoint: { [key in SupportedNetworks]: { http: string; ws: string } } = {
